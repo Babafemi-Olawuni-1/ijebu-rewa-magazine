@@ -406,6 +406,27 @@
             form.reset();
           }
         });
+        document.getElementById('copyBtn').addEventListener('click', async function() {
+  const textToCopy = "Text to copy!"; // Replace with your desired text
+  
+  try {
+    await navigator.clipboard.writeText(textToCopy);
+    this.textContent = 'Copied!'; // Visual feedback
+    setTimeout(() => { this.textContent = 'Copy'; }, 2000); // Reset after 2 seconds
+  } catch (err) {
+    console.error('Failed to copy:', err);
+    // Fallback for non-HTTPS or older browsers
+    const textarea = document.createElement('textarea');
+    textarea.value = textToCopy;
+    textarea.style.position = 'fixed'; // Avoid scrolling to bottom
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    this.textContent = 'Copied!';
+    setTimeout(() => { this.textContent = 'Copy'; }, 2000);
+  }
+});
       </script>
       
 </body>
